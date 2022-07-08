@@ -15,9 +15,9 @@ def callback(data):
     os.remove("speech.mp3")
     
 def googletts():
-    rospy.init_node('x-tts', anonymous=True)
+    rospy.init_node('x_jane_tts', anonymous=True)
 
-    rospy.Subscriber("/tts_input", String, callback)
+    rospy.Subscriber("/jane_tts", String, callback)
 
     rospy.spin()
 

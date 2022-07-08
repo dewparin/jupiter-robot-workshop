@@ -5,7 +5,7 @@ import speech_recognition as sr
 import time
 
 def speechreg():
-    rospy.init_node('x-sr', anonymous=True)
+    rospy.init_node('x_jane_sr', anonymous=True)
     while not rospy.is_shutdown():
         # obtain audio from the microphone
         r = sr.Recognizer()
@@ -18,7 +18,7 @@ def speechreg():
         try:
             result = r.recognize_google(audio).lower()
             print("[SR]> speechreg # result: " + result)
-            pub = rospy.Publisher('/tts_input', String, queue_size=10)
+            pub = rospy.Publisher('/jane_tts', String, queue_size=10)
             sentense = 'you said ' + result
             pub.publish(sentense)
         except sr.UnknownValueError:
