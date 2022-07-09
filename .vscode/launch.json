@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "catkin_make",
+            "command": "catkin_make"
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "webcam",
+            "command": "source devel/setup.bash && roslaunch usb_cam usb_cam-test.launch",
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "tts",
+            "command": "source devel/setup.bash && rosrun projectx jane_tts.py",
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "photographer",
+            "command": "source devel/setup.bash && rosrun projectx take_photo.py",
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "joker",
+            "command": "source devel/setup.bash && rosrun projectx get_joke.py",
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
+            "name": "JANE",
+            "command": "source devel/setup.bash && rosrun projectx jane_sr.py",
+        },
+    ]
+}
