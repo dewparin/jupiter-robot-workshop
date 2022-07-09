@@ -12,7 +12,6 @@ class Joker:
         rospy.loginfo("[JOKER]> Getting Joke")
         url = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&format=txt&type=single'
         response = requests.get(url)
-        print("[JOKER]> response")
         rospy.loginfo("[JOKER]> Response: %s", response.text)
         pub = rospy.Publisher('/jane_tts', String, queue_size=10)
         pub.publish(response.text)

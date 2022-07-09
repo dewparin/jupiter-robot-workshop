@@ -4,8 +4,8 @@ from std_msgs.msg import String
 import speech_recognition as sr
 import time
 
-class JaneTTS:
-    cmd_pub = rospy.Publisher('/jane_command', String, queue_size=10)
+class JaneSR:
+    tts_pub = rospy.Publisher('/jane_tts', String, queue_size=10)
     take_photo_pub = rospy.Publisher('/jane_take_photo', String, queue_size=10)
     get_joke_pub = rospy.Publisher('/joker', String, queue_size=10)
  
@@ -31,16 +31,19 @@ class JaneTTS:
                 print("[SR]> speechreg # Could not request results from Google Speech Recognition service; {0}".format(e))
         
     def command(self, sentense):
-        if 'photo' in sentense or 'funny' in sentense:
+        if 'photo' in sentense:
             print('[SR]> command # take photo')
+            self.tts_pub.publish('got it let\'s take a photo')
             self.take_photo_pub.publish('')
-        elif 'joke' in sentense:
+        elif 'joke' in sentense or 'funny' in sentense:
             print('[SR]> command # get joke')
+            # self.tts_pub.publish('hah hah')
             self.get_joke_pub.publish('')
         else:
             print('[SR] command # unknown command')
+            self.tts_pub.publish('sorry i do not understand')
 
 
 if __name__ == '__main__':
     rospy.init_node('x_jane_sr', anonymous=False)
-    JaneTTS().start()
+    JaneSR().start()
