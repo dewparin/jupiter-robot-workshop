@@ -11,7 +11,7 @@ from std_msgs.msg import String
 
 class NavToPoint:
 
-    target = 0
+    target = -1
     
     def __init__(self):
         rospy.on_shutdown(self.cleanup)
@@ -55,7 +55,7 @@ class NavToPoint:
             self.target = 1
         else:
             print('[NAV] unknown target')
-            self.target = 0
+            self.target = -1
 
     def run_loop(self):
         A_theta = 1.5708
@@ -66,24 +66,29 @@ class NavToPoint:
         while not rospy.is_shutdown():
             self.goal.target_pose.header.frame_id = 'map'
             self.goal.target_pose.header.stamp = rospy.Time.now()
-
-            if self.target == 1:
+            if self.target == 0:
+                rospy.loginfo("Going to origin")
+                self.goto(self.initial_pose.pose.pose, -1)
+            elif self.target == 1:
                 rospy.loginfo("Going to kitchen")
-                rospy.sleep(2)
-                self.goal.target_pose.pose = kitchen_point
-                self.move_base.send_goal(self.goal)
-                waiting = self.move_base.wait_for_result(rospy.Duration(300))
-                if waiting == 1:
-                    rospy.loginfo("Reached point A")
-                    rospy.sleep(2)
-                    rospy.loginfo("Ready to go back")
-                    rospy.sleep(2)
-                    self.target = 0
+                self.goto(kitchen_point, 0)
             
             rospy.Rate(5).sleep()
 
+    def goto(self, pose, next_target):
+        rospy.sleep(2)
+        self.goal.target_pose.pose = pose
+        self.move_base.send_goal(self.goal)
+        waiting = self.move_base.wait_for_result(rospy.Duration(300))
+        if waiting == 1:
+            rospy.loginfo("Reached target")
+            rospy.sleep(2)
+            rospy.loginfo("Ready to go to the next target")
+            rospy.sleep(2)
+            self.target = next_target
+        
 
 if __name__=="__main__":
     rospy.init_node('x_jane_nav', anonymous=False)
-    NavToPoint()
+    NavToPoint().run_loop()
     rospy.spin()
