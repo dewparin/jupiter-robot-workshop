@@ -7,6 +7,7 @@ import time
 class JaneTTS:
     cmd_pub = rospy.Publisher('/jane_command', String, queue_size=10)
     take_photo_pub = rospy.Publisher('/jane_take_photo', String, queue_size=10)
+    get_joke_pub = rospy.Publisher('/joker', String, queue_size=10)
  
     def start(self):
         while not rospy.is_shutdown():
@@ -32,6 +33,9 @@ class JaneTTS:
         if 'photo' in sentense:
             print('[SR]> command # take photo')
             self.take_photo_pub.publish('')
+        elif 'joke' in sentense:
+            print('[SR]> command # get joke')
+            self.get_joke_pub.publish('')
         else:
             print('[SR] command # unknown command')
 
