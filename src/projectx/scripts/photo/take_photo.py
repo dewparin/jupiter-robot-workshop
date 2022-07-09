@@ -28,6 +28,8 @@ from cv_bridge import CvBridge, CvBridgeError
 import time
 
 class TakePhoto:
+    status_pub = rospy.Publisher('/photo_status', String, queue_size=10)
+
     def __init__(self):
 
         self.bridge = CvBridge()
@@ -64,16 +66,19 @@ class TakePhoto:
 
     def response_take_photo(self, data):
         print('[PHOTOGRAPHER] taking photo')
-        # Take a photo
-        timestr = time.strftime("%Y%m%d-%H%M%S-")
-        img_title = timestr + "photo.jpg"
-        pub = rospy.Publisher('/jane_tts', String, queue_size=10)
-        if self.take_picture(img_title):
-            rospy.loginfo("Saved image " + img_title)
-            time.sleep(2)
-            pub.publish('Looking Good, though not as handsome as Brad Pitt.')
-        else:
-            rospy.loginfo("No images received")
+        try:
+            # Take a photo
+            timestr = time.strftime("%Y%m%d-%H%M%S-")
+            img_title = timestr + "photo.jpg"
+            pub = rospy.Publisher('/jane_tts', String, queue_size=10)
+            if self.take_picture(img_title):
+                rospy.loginfo("Saved image " + img_title)
+                time.sleep(2)
+                pub.publish('Looking Good.')
+            else:
+                rospy.loginfo("No images received")
+        finally:
+            self.status_pub.publish('')
  
 
 if __name__ == '__main__':
