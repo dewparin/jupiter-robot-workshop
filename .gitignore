@@ -3,3 +3,4 @@
 
 .vscode
 *.jpg
+/src/CMakeLists.txt
