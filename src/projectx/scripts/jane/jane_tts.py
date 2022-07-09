@@ -9,7 +9,6 @@ class JaneTTS:
 
     def start(self):
         rospy.Subscriber("/jane_tts", String, self.callback)
-        rospy.spin()
 
     def callback(self, data):
         rospy.loginfo("[TTS]> Input: %s", data.data)
@@ -20,5 +19,6 @@ class JaneTTS:
         os.remove("speech.mp3")
 
 if __name__ == '__main__':
-    rospy.init_node('x_jane_tts', anonymous=True)
+    rospy.init_node('x_jane_tts', anonymous=False)
     JaneTTS().start()
+    rospy.spin()

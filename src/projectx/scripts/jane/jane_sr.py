@@ -5,6 +5,7 @@ import speech_recognition as sr
 import time
 
 class JaneTTS:
+    cmd_pub = rospy.Publisher('/jane_command', String, queue_size=10)
  
     def start(self):
         while not rospy.is_shutdown():
@@ -27,10 +28,12 @@ class JaneTTS:
                 print("[SR]> speechreg # Could not request results from Google Speech Recognition service; {0}".format(e))
         
     def command(self, sentense):
-        if 'take photo' in sentense:
+        if 'photo' in sentense:
             print('[SR]> command # take photo')
+            self.cmd_pub.publish('take_photo')
         else:
             print('[SR] command # unknown command')
+            self.cmd_pub.publish('unknown')
 
 
 if __name__ == '__main__':
