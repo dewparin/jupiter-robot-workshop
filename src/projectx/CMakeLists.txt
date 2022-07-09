@@ -162,6 +162,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/jane/jane_sr.py
   scripts/jane/jane_tts.py
+  scripts/photo/take_photo.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
