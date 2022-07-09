@@ -8,6 +8,7 @@ class JaneSR:
     tts_pub = rospy.Publisher('/jane_tts', String, queue_size=10)
     take_photo_pub = rospy.Publisher('/jane_take_photo', String, queue_size=10)
     get_joke_pub = rospy.Publisher('/joker', String, queue_size=10)
+    nav_pub = rospy.Publisher('/jane_nav', String, queue_size=10)
  
     def start(self):
         while not rospy.is_shutdown():
@@ -39,6 +40,9 @@ class JaneSR:
             print('[SR]> command # get joke')
             # self.tts_pub.publish('hah hah')
             self.get_joke_pub.publish('')
+        elif 'kitchen' in sentense:
+            print('[SR]> command # goto kitchen')
+            self.nav_pub.publish('kitchen')
         else:
             print('[SR] command # unknown command')
             self.tts_pub.publish('sorry i do not understand')

@@ -37,6 +37,12 @@
         {
             "type": "node-terminal",
             "request": "launch",
+            "name": "Nav",
+            "command": "source devel/setup.bash && rosrun projectx navigation.py",
+        },
+        {
+            "type": "node-terminal",
+            "request": "launch",
             "name": "JANE",
             "command": "source devel/setup.bash && rosrun projectx jane_sr.py",
         },
