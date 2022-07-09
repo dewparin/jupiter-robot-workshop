@@ -22,7 +22,8 @@ class JaneTTS:
             try:
                 result = r.recognize_google(audio).lower()
                 print("[SR]> speechreg # result: " + result)
-                if result.startswith('hey jane') or result.startswith('hey jen'):
+                # if result.startswith('hey jane') or result.startswith('hey jen'):
+                if result.startswith('computer') or result.startswith('okay'):
                     self.command(result)
             except sr.UnknownValueError:
                 print("[SR]> speechreg # could not understand audio")
@@ -30,7 +31,7 @@ class JaneTTS:
                 print("[SR]> speechreg # Could not request results from Google Speech Recognition service; {0}".format(e))
         
     def command(self, sentense):
-        if 'photo' in sentense:
+        if 'photo' in sentense or 'funny' in sentense:
             print('[SR]> command # take photo')
             self.take_photo_pub.publish('')
         elif 'joke' in sentense:

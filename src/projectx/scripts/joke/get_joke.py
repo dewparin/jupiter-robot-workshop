@@ -10,7 +10,7 @@ class Joker:
 
     def callback(self, data):
         rospy.loginfo("[JOKER]> Getting Joke")
-        url = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&format=txt&contains=ai'
+        url = 'https://v2.jokeapi.dev/joke/Programming?blacklistFlags=nsfw,religious,political,racist,sexist,explicit&format=txt&type=single'
         response = requests.get(url)
         print("[JOKER]> response")
         rospy.loginfo("[JOKER]> Response: %s", response.text)
