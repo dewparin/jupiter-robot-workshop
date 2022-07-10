@@ -38,7 +38,8 @@ class TakePhoto:
         # Connect image topic
         #img_topic = "/camera/rgb/image_raw"
         #img_topic = "/camera_top/rgb/image_raw"
-        img_topic = "/usb_cam/image_raw"
+        # img_topic = "/usb_cam/image_raw"
+        img_topic = "/camera_top/rgb/image_raw"
         self.image_sub = rospy.Subscriber(img_topic, Image, self.callback)
 
         # Allow up to one second to connection

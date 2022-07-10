@@ -3,6 +3,7 @@ import rospy
 from std_msgs.msg import String
 import speech_recognition as sr
 import time
+import random
 
 class JaneSR:
     tts_pub = rospy.Publisher('/jane_tts', String, queue_size=10)
@@ -22,6 +23,7 @@ class JaneSR:
     def start(self):
         rospy.Subscriber("/joker_status", String, self.on_joker_finished)
         rospy.Subscriber("/photo_status", String, self.on_take_photo_finished)
+        rospy.Subscriber("/nav_status", String, self.on_get_drink_finished)
         while not rospy.is_shutdown():
             # obtain audio from the microphone
             r = sr.Recognizer()
@@ -115,13 +117,20 @@ class JaneSR:
         else:
             self.tts_pub.publish('Just a drinking water then')
             rospy.sleep(4)
-        # todo nav to kitchen then back
+        self.nav_pub.publish('')
         self.state = 4
 
     # getting a drink at the kitchen
     def state_4(self, sentense):
         print('state 4')
-        self.tts_pub.publish('I am getting you a drink, please wait')
+        list1 = [
+            'I am getting you a drink, please wait',
+            'slow donw please',
+            'Hold your horses man'
+            'On it',
+            '@&@&@&@&'
+        ]
+        self.tts_pub.publish(random.choice(list1))
         rospy.sleep(4)
     
 if __name__ == '__main__':

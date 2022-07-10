@@ -14,13 +14,17 @@ from actionlib_msgs.msg import *
 from geometry_msgs.msg import Pose, PoseWithCovarianceStamped, Point, Quaternion, Twist
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 from tf.transformations import quaternion_from_euler
+from std_msgs.msg import String
 
 original = 0
-start = 1
+start = -1
 
 class NavToPoint:
+	status_pub = rospy.Publisher('/nav_status', String, queue_size=10)
+	initial_post = 0
+
 	def __init__(self):
-		
+		rospy.Subscriber("/jane_nav", String, self.go_nav)
 		rospy.on_shutdown(self.cleanup)
         
 		# Subscribe to the move_base action server
@@ -50,8 +54,8 @@ class NavToPoint:
 		locations = dict()
 		
 		# Location A
-		A_x = 1.0
-		A_y = 1.0
+		A_x = 2.61
+		A_y = 2.72
 		A_theta = 1.5708
 		
 		quaternion = quaternion_from_euler(0.0, 0.0, A_theta)
@@ -76,7 +80,7 @@ class NavToPoint:
 					rospy.sleep(2)
 					rospy.loginfo("Ready to go back")
 					rospy.sleep(2)
-					# global start
+					global start
 					start = 0
 			
 			# After reached point A, robot will go back to initial position
@@ -89,8 +93,9 @@ class NavToPoint:
 				if waiting == 1:
 					rospy.loginfo("Reached home")
 					rospy.sleep(2)
-					# global start
-					start = 2
+					global start
+					start = -1
+					self.status_pub.publish('')
 			
 			rospy.Rate(5).sleep()
 	
@@ -98,12 +103,17 @@ class NavToPoint:
 		self.initial_pose = initial_pose
 		if original == 0:
 			self.origin = self.initial_pose.pose.pose
-			# global original
+			global original
 			original = 1
 	
 	def cleanup(self):
 		rospy.loginfo("Shutting down navigation	....")
 		self.move_base.cancel_goal()
+ 
+	def go_nav(self, data):
+		print('go nav !')
+		global start
+		start = 1
 
 if __name__=="__main__":
 	rospy.init_node('navi_point')

@@ -166,6 +166,8 @@ catkin_install_python(PROGRAMS
   scripts/photo/take_photo.py
   scripts/joke/get_joke.py
   scripts/nav/navigation.py
+  scripts/nav/navigation_2.py
+  scripts/jane/local_sr.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
